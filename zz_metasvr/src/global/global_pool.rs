@@ -43,7 +43,6 @@ impl GlobalPool {
             pg_pool: pg_pool,
             redis_pool: redis_pool,
         }
-
     }
 }
 
@@ -58,6 +57,7 @@ impl Clone for GlobalPool {
 
 pub struct GlobalSession {
     session_map: Rc<RefCell<HashMap<String, Session>>>, // acc_name -> Session
+    id: Rc<RefCell<String>>, 
 }
 
 impl GlobalSession {
@@ -68,8 +68,10 @@ impl GlobalSession {
                 println!("init GlobalSession");
 
                 let session_map: Rc<RefCell<_>> = Rc::new(RefCell::new(HashMap::with_capacity(16)));
+                let id = Rc::new(RefCell::new(uuid::Uuid::new_v4().to_string()));
                 let global_session = GlobalSession {
                     session_map: session_map,
+                    id: id,
                 };
 
                 Arc::new(Mutex::new(global_session))
@@ -78,9 +80,9 @@ impl GlobalSession {
         }        
     }
     
-    pub fn add_session(&self, session: Session) {
+    pub fn add_session(&self, session: &Session) {
         let mut map: RefMut<HashMap<String, Session>> = self.session_map.borrow_mut();
-        map.insert(session.acc_name.clone(), session);
+        map.insert(session.acc_name.clone(), session.clone());
     }
 
     pub fn refresh_login_time(&self, acc_name: String, ts: i64) {
@@ -107,12 +109,18 @@ impl GlobalSession {
         }
         s
     }
+
+    pub fn get_id(&self) -> String {
+        let id = self.id.borrow_mut().clone();
+        id
+    }
 }
 
 impl Clone for GlobalSession {
     fn clone(&self) -> Self {
         GlobalSession {
             session_map: self.session_map.clone(),
+            id: self.id.clone(),
         }
     }
 }

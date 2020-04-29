@@ -5,6 +5,7 @@ use actix_web::{App, HttpServer};
 fn main() {
     init_logger();
     init_conf();
+    init_singleton();
 
     init_http_server().unwrap();
 }
@@ -35,6 +36,10 @@ fn init_logger() {
 fn init_conf() {
     // init global zz conf
     GlobalZZConf::get_zz_conf();
+}
+
+fn init_singleton() {
+    GlobalSession::get();
 }
 
 #[actix_rt::main]

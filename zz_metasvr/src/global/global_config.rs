@@ -74,7 +74,7 @@ impl GlobalZZConf {
                         };
                     },
                     Err(e) => {
-                        error!("open zz.toml caught error:{:?}", e);
+                        error!("open zz_metasvr.toml caught error:{:?}", e);
                         panic!(e);
                     },
                 }

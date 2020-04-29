@@ -142,3 +142,29 @@ async fn get_session(info: web::Path<(String,)>,) -> RetResponse {
         magic_key: magic_key,
     }
 }
+
+// #[get("/test/eventbus_pub")]
+// async fn event_publish() -> RetResponse {
+//     let session = Session {
+//         acc_name: "user1".to_string(),
+//         magic_key: "".to_string(),
+//         login_time: Local::now().timestamp_millis(),
+//     };
+//     // GlobalSession::get().lock().unwrap().add_session(&session);
+
+//     let event = Event {
+//         host_id: GlobalSession::get().lock().unwrap().get_id(),
+//         event_type: EV_001,
+//         channel: SYS_EVENT.to_string(),
+//         event_body: serde_json::to_string(&session).unwrap(),
+//     };
+
+//     // println!("{:?}", event);
+//     EventBus::get().lock().unwrap().publish(&event);
+    
+//     RetResponse {
+//         ret_code: CODE_OK,
+//         ret_info: "".to_string(),
+//         magic_key: "".to_string(),
+//     }
+// }

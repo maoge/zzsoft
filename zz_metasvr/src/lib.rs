@@ -5,15 +5,20 @@
 // extern crate toml;
 // extern crate log;
 extern crate chrono;
+extern crate r2d2_redis;
 
-use std::sync::Arc;
-use std::sync::Mutex;
+use std::sync::{Arc, Mutex};
+use std::cell::{RefCell, RefMut};
+use std::rc::Rc;
+// use std::thread::sleep;
 // use std::boxed::Box;
 
 use std::env;
 use std::fs::File;
 use std::io::prelude::*;
 use std::time::Duration;
+use std::collections::{HashMap};
+// use std::collections::VecDeque;
 // use std::ops::DerefMut;
 
 use chrono::prelude::Local;
@@ -27,10 +32,11 @@ use deadpool_redis::ConnectionWrapper;
 use serde::{Serialize, Deserialize};
 use futures::future::{ready, Ready};
 
+// use r2d2_redis::{r2d2, RedisConnectionManager};
+// use r2d2_redis::redis::{Commands, PubSubCommands, ControlFlow};
+
+
 use regex::Regex;
-use std::collections::HashMap;
-use std::cell::{RefCell, RefMut};
-use std::rc::Rc;
 
 // use chashmap::CHashMap;
 // use concache::crossbeam::Map;
@@ -45,7 +51,7 @@ include!("global/global_pool.rs");
 include!("proto/global_types.rs");
 include!("dao/dao_acc.rs");
 include!("utils/crypto_util.rs");
-include!("eventbus/event_bus.rs");
+// include!("eventbus/event_bus.rs");
 
 
 #[cfg(test)]

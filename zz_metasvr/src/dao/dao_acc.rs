@@ -226,21 +226,15 @@ impl DaoAcc {
         let key = String::from(&login_info.acc_name);
         let ts = Local::now().timestamp_millis();
 
-        deadpool_redis::cmd("HSET").arg(key.clone()).arg(MAGIC_KEY)
+        deadpool_redis::cmd("HMSET").arg(key.clone())
+            .arg(MAGIC_KEY)
             .arg(ret_response.magic_key.clone())
-            .execute_async(redis_conn)
-            .await.unwrap();
-
-        deadpool_redis::cmd("HSET").arg(key.clone()).arg(SESSION_CREATE)
+            .arg(SESSION_CREATE)
+            .arg(ts)
+            .arg(LOGIN_TIME)
             .arg(ts)
             .execute_async(redis_conn)
             .await.unwrap();
-        
-        deadpool_redis::cmd("HSET").arg(key.clone()).arg(LOGIN_TIME)
-            .arg(ts)
-            .execute_async(redis_conn)
-            .await.unwrap();
-
         deadpool_redis::cmd("EXPIRE").arg(key.clone()).arg(LOGIN_TTL)
             .execute_async(redis_conn)
             .await.unwrap();
@@ -250,7 +244,7 @@ impl DaoAcc {
             magic_key: ret_response.magic_key.clone(),
             login_time: ts,
         };
-        GlobalSession::get().lock().unwrap().add_session(session);
+        GlobalSession::get().lock().unwrap().add_session(&session);
     }
 
     pub async fn refresh_login_time(login_info: &LoginInfo,
