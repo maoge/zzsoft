@@ -1,3 +1,4 @@
 zz_metasvr/Cargo.lock
+zz_metasvr/.vscode/*
 zz_metasvr/log/*
 zz_metasvr/target/*
