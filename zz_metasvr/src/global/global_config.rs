@@ -1,4 +1,3 @@
-
 #[derive(Debug, Deserialize)]
 pub struct GlobalZZConf {
     metasvr_conf: MetaSvr,
@@ -69,13 +68,13 @@ impl GlobalZZConf {
                             Ok(s) => s,
                             Err(e) => {
                                 error!("Error Reading file: {}", e);
-                                panic!(e);
+                                panic!("{}", e);
                             },
                         };
                     },
                     Err(e) => {
                         error!("open zz_metasvr.toml caught error:{:?}", e);
-                        panic!(e);
+                        panic!("{}", e);
                     },
                 }
 

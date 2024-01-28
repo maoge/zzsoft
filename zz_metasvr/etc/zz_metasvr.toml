@@ -1,7 +1,7 @@
 [metasvr_conf]
 bind_address = "0.0.0.0:8082"
 keep_alive = 120
-client_timeout = 3000
+client_timeout = 20
 shutdown_timeout = 3
 maxconn = 10000
 maxconnrate = 2500
