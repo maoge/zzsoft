@@ -55,8 +55,6 @@ async fn init_http_server() -> std::io::Result<()> {
     let g_zzconf = g_zzconf_holder.lock().unwrap();
     let meta_conf = &g_zzconf.metasvr_conf;
 
-    // let keep_alive = new KeepAlive();
-
     let http_server = web::HttpServer::new(move || {
         web::App::new()
             .configure(test_handler_regist)
